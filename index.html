@@ -168,24 +168,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
 .pq-btn.done{background:var(--gh-green-bg);border-color:#82e396;color:var(--gh-green);}
 .pq-tip{background:#fffbdd;border:1px solid #d4a72c;border-radius:8px;padding:14px 16px;font-size:13px;color:#5a4000;margin-top:16px;line-height:1.5;}
 
-/* Q-Bank Custom Styles */
-.qb-form { display: flex; gap: 10px; margin-bottom: 20px; background: var(--gh-canvas); padding: 16px; border: 1px solid var(--gh-border); border-radius: 8px; flex-wrap: wrap; align-items: center; box-shadow:0 1px 3px rgba(0,0,0,0.03);}
-.qb-input { flex: 1; min-width: 250px; padding: 8px 12px; border: 1px solid var(--gh-border); border-radius: 6px; background: #fff; color: var(--gh-text); outline: none; font-family: inherit; font-size: 14px; }
-.qb-input:focus { border-color: var(--gh-accent); box-shadow: 0 0 0 3px rgba(9,105,218,.1); }
-.qb-select { padding: 8px 10px; border: 1px solid var(--gh-border); border-radius: 6px; background: #fff; color: var(--gh-text); outline: none; font-size: 13px; font-weight:600; font-family: inherit; cursor:pointer;}
-.qb-cat-A { color: var(--gh-red); background: var(--gh-red-bg); border-color: #f1aeb5; }
-.qb-cat-B { color: var(--gh-orange); background: var(--gh-orange-bg); border-color: #d4a72c; }
-.qb-cat-C { color: var(--gh-green); background: var(--gh-green-bg); border-color: #82e396; }
-.qb-src { font-family: "SFMono-Regular",Consolas,monospace; font-size: 11px; font-weight:700; padding: 3px 8px; border-radius: 4px; background: var(--gh-subtle); color: var(--gh-text-2); border: 1px solid var(--gh-border); white-space: nowrap;}
-.qb-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--gh-border-muted); transition: background 0.1s;}
-.qb-item:hover { background: var(--gh-subtle); }
-.qb-item:last-child { border-bottom: none; }
-.qb-chk { cursor: pointer; width: 18px; height: 18px; margin-top: 2px; accent-color: #2da44e; }
-.qb-text { flex: 1; font-size: 14px; line-height: 1.5; color: var(--gh-text); font-weight:500;}
-.qb-text.done { text-decoration: line-through; color: var(--gh-text-3); font-weight:400;}
-.qb-del { background: none; border: none; color: var(--gh-red); cursor: pointer; font-size: 16px; opacity: 0.5; transition: 0.2s; padding: 0 6px;}
-.qb-del:hover { opacity: 1; background: var(--gh-red-bg); border-radius:4px;}
-
 /* overview cards */
 .ov-card{background:var(--gh-canvas);border:1px solid var(--gh-border);border-radius:10px;padding:18px;cursor:pointer;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
 .ov-card:hover{border-color:var(--gh-accent);box-shadow:0 4px 12px rgba(9,105,218,.08); transform: translateY(-2px);}
@@ -197,11 +179,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
 .ov-bar{height:8px;background:var(--gh-border-muted);border-radius:4px;margin-bottom:12px;}
 .ov-fill{height:100%;border-radius:4px;transition:width .4s;}
 .ov-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--gh-text-2); font-weight:600;}
-
-/* Global QBank Page Wrapper */
-.global-qb-container { padding: 30px; max-width: 1200px; margin: 0 auto; }
-.global-qb-header { margin-bottom: 24px; display:flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gh-border); padding-bottom: 16px; }
-.global-qb-title { font-size: 22px; font-weight: 700; color: var(--gh-text); }
 
 /* ── RIGHT PANEL ── */
 .rpanel{width:280px;border-left:1px solid var(--gh-border);background:var(--gh-canvas);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;box-shadow:-1px 0 5px rgba(0,0,0,0.02);}
@@ -242,6 +219,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
 .toast{position:fixed;bottom:24px;right:24px;background:#24292f;color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:999;transform:translateY(50px);opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* Integrated Iframe Styles */
+.iframe-container { flex:1; display:flex; flex-direction:column; background:var(--gh-canvas); height:100%; width:100%; position:relative; }
+.iframe-header { background:var(--gh-subtle); border-bottom:1px solid var(--gh-border); padding:10px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;}
+.iframe-el { width:100%; flex:1; border:none; background:#fff; }
+
 @media(max-width:1100px){.rpanel{display:none;}}
 @media(max-width:700px){.sidebar{width:220px;}}
 </style>
@@ -265,15 +247,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
       <div class="hdr-prog-bar"><div class="hdr-prog-fill" id="hdrBar" style="width:0%"></div></div>
       <span id="hdrFrac" style="font-size:11px;">0/0</span>
     </div>
-    <div class="hdr-pill" style="border-color:var(--gh-accent); color:var(--gh-accent); background:var(--gh-accent-bg);">New Syllabus 2024</div>
-    <!-- Integrated Navigation Toggle Button -->
-    <button id="viewToggleBtn" class="hdr-pill" onclick="toggleGlobalView()" style="background:#8250df; color:#fff; border:none; box-shadow: 0 2px 4px rgba(130, 80, 223, 0.3); cursor:pointer; font-family:inherit;">🎯 View All Master Q-Bank</button>
+    <div class="hdr-pill" style="border-color:var(--gh-accent); color:var(--gh-accent); background:var(--gh-accent-bg);">New Syllabus</div>
+    
+    <!-- LINK TO QBANK BUTTON -->
+    <button id="viewToggleBtn" class="hdr-pill" onclick="toggleGlobalView()" style="background:#8250df; color:#fff; border:none; box-shadow: 0 2px 4px rgba(130, 80, 223, 0.3); cursor:pointer; font-family:inherit; font-weight:700;">🎯 View Master Q-Bank</button>
   </div>
 </header>
 
-<!-- Primary App View -->
-<div class="body-wrap" id="appBodyWrap">
-  <aside class="sidebar">
+<!-- Primary App View Layout -->
+<div class="body-wrap">
+  <aside class="sidebar" id="appSidebar">
     <div class="sb-hdr">
       <span>Chapters &amp; AS</span>
       <span id="sbProgress" style="font-size:10px;"></span>
@@ -288,11 +271,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
     </div>
   </aside>
 
-  <main class="main">
+  <!-- Content Switcher Wrapper -->
+  <main class="main" id="mainWrapper">
+    <!-- Main Dashboard Application -->
     <div class="content" id="mainContent"></div>
+    
+    <!-- Integrated qbank.html Seamless Iframe Window -->
+    <div class="iframe-container" id="globalQBankView" style="display:none;">
+       <div class="iframe-header">
+           <span style="font-weight:700; color:var(--gh-text); font-size:14px;">🎯 Live Connected View: qbank.html</span>
+           <button class="btn def" onclick="toggleGlobalView()" style="font-size:12px; padding:4px 10px;">← Close &amp; Return Dashboard</button>
+       </div>
+       <iframe src="qbank.html" class="iframe-el" id="qbankIframe"></iframe>
+    </div>
   </main>
 
-  <aside class="rpanel">
+  <aside class="rpanel" id="appRPanel">
     <div class="rp-sec">
       <div class="rp-lbl">Study Timer</div>
       <div class="tm-mode">
@@ -326,19 +320,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helveti
       <div id="logList"><div class="empty-log">No sessions yet</div></div>
     </div>
   </aside>
-</div>
-
-<!-- Integrated Global Q-Bank View -->
-<div class="content" id="globalQBankView" style="display:none; flex:1; overflow-y:auto;">
-  <div class="global-qb-container">
-    <div class="global-qb-header">
-       <div class="global-qb-title">🎯 Master Central Q-Bank (All Chapters)</div>
-       <button class="btn def" onclick="toggleGlobalView()">← Back to Dashboard</button>
-    </div>
-    <div style="background:var(--gh-canvas); border:1px solid var(--gh-border); border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.03);" id="globalQBankList">
-       <!-- Dynamic Global QBank Items injected here -->
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -604,10 +585,10 @@ const syllabus = [
   },
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// ─── STATE MANAGEMENT ────────────────────────────────────────────────────────
 const DEF = { 
   topicStatus:{}, topicStars:{}, notes:{}, pqStatus:{}, log:[], studyMinutes:0, 
-  currentSection: syllabus[0].id, examDate: '', timeLogs: {}, streak: 0, lastStreakDate: '', qbank: []
+  currentSection: syllabus[0].id, examDate: '', timeLogs: {}, streak: 0, lastStreakDate: ''
 };
 let S = {};
 let isGlobalQBankActive = false;
@@ -631,12 +612,10 @@ function checkStreakReset() {
   }
   updateStreakUI();
 }
-
 function updateStreakUI() {
   const el = document.getElementById('streakCounter');
   if(el) el.textContent = `🔥 ${S.streak} Streak`;
 }
-
 function checkAddStreak() {
   const today = new Date().toISOString().split('T')[0];
   if (S.lastStreakDate !== today) {
@@ -644,75 +623,33 @@ function checkAddStreak() {
     S.lastStreakDate = today;
     saveS();
     updateStreakUI();
-    toast(`🔥 Awesome! Streak increased to ${S.streak}!`);
+    toast(`🔥 Study streak expanded to ${S.streak}!`);
   }
 }
 
-// ─── GLOBAL Q-BANK VIEW TOGGLE ────────────────────────────────────────────────
+// ─── LINKED IFRAME INTERACTION ───────────────────────────────────────────────
 function toggleGlobalView() {
   isGlobalQBankActive = !isGlobalQBankActive;
-  const appView = document.getElementById('appBodyWrap');
-  const globalView = document.getElementById('globalQBankView');
+  const mainDashboard = document.getElementById('mainContent');
+  const globalIframeView = document.getElementById('globalQBankView');
   const navBtn = document.getElementById('viewToggleBtn');
+  const iframeEl = document.getElementById('qbankIframe');
   
   if (isGlobalQBankActive) {
-    appView.style.display = 'none';
-    globalView.style.display = 'flex';
+    mainDashboard.style.display = 'none';
+    globalIframeView.style.display = 'flex';
     navBtn.textContent = '📊 Back to Dashboard';
-    renderGlobalQBank();
+    // Force reload the iframe to ensure it fetches fresh standalone qbank.html
+    iframeEl.src = iframeEl.src;
   } else {
-    appView.style.display = 'flex';
-    globalView.style.display = 'none';
-    navBtn.textContent = '🎯 View All Master Q-Bank';
+    mainDashboard.style.display = 'block';
+    globalIframeView.style.display = 'none';
+    navBtn.textContent = '🎯 View Master Q-Bank';
     renderMain();
   }
 }
 
-function renderGlobalQBank() {
-  const el = document.getElementById('globalQBankList');
-  if(!S.qbank || S.qbank.length === 0) {
-     el.innerHTML = '<div style="padding:40px;text-align:center;color:var(--gh-text-3);font-size:15px;font-weight:500;">No master questions collected from your dashboard tabs yet! Add items under chapter tabs.</div>';
-     return;
-  }
-  
-  // Group questions by chapter
-  let html = '';
-  syllabus.forEach(sec => {
-     const chapterQs = S.qbank.filter(q => q.chapterId === sec.id);
-     if(chapterQs.length > 0) {
-        html += `<div style="background:var(--gh-subtle); padding:10px 16px; font-weight:700; border-bottom:1px solid var(--gh-border); color:var(--gh-text); font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">${sec.label} — ${sec.title}</div>`;
-        chapterQs.forEach(q => {
-           html += `
-            <div class="qb-item">
-                <input type="checkbox" class="qb-chk" ${q.isDone?'checked':''} onchange="toggleGlobalQBankItem('${q.id}')">
-                <div class="qb-text ${q.isDone?'done':''}">${q.text}</div>
-                <span class="qb-src">${q.source}</span>
-                <span class="lbl qb-cat-${q.category}">Cat ${q.category}</span>
-                <button class="qb-del" onclick="delGlobalQBankItem('${q.id}')" title="Delete">✖</button>
-            </div>`;
-        });
-     }
-  });
-  el.innerHTML = html;
-}
-
-function toggleGlobalQBankItem(id) {
-    const q = S.qbank.find(x => x.id === id);
-    if(q) { 
-        q.isDone = !q.isDone; 
-        if (q.isDone) checkAddStreak();
-        saveS(); 
-        renderGlobalQBank(); 
-    }
-}
-
-function delGlobalQBankItem(id) {
-    S.qbank = S.qbank.filter(x => x.id !== id);
-    saveS(); 
-    renderGlobalQBank();
-}
-
-// ─── TIMER ───────────────────────────────────────────────────────────────────
+// ─── STUDY TIMER ─────────────────────────────────────────────────────────────
 let timerSec = 25*60, timerOn = false, timerMode = 'pomo', timerIv = null;
 const timerModes = { pomo: 25*60, short: 5*60, long: 45*60 };
 
@@ -729,7 +666,14 @@ function toggleTimer() {
     btn.textContent = '⏸ Pause';
     timerIv = setInterval(() => {
       timerSec--;
-      if (timerSec <= 0) { clearInterval(timerIv); timerOn=false; timerSec=timerModes[timerMode]; btn.textContent='▶ Start'; toast('⏰ Session complete! Great work!'); logSession(); }
+      if (timerSec <= 0) { 
+        clearInterval(timerIv); 
+        timerOn=false; 
+        timerSec=timerModes[timerMode]; 
+        btn.textContent='▶ Start'; 
+        toast('⏰ Session complete! Brilliant study focus!'); 
+        logSession(); 
+      }
       updTimer();
     }, 1000);
   } else {
@@ -759,11 +703,11 @@ function logSession() {
   const entry = { text: `${sec ? sec.label : 'Study'} — ${mins} min`, time: new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) };
   S.log.unshift(entry);
   if (S.log.length > 30) S.log.pop();
-  saveS(); renderLog(); updateStats(); toast('✓ Session logged!');
+  saveS(); renderLog(); updateStats(); toast('✓ Session logged successfully!');
   if (currentTab === 'overview') renderTab(sec); 
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// ─── UTILITIES & COUNTDOWN ───────────────────────────────────────────────────
 function secProgress(sec) {
   const done = sec.topics.filter(t => ['done','revision'].includes(S.topicStatus[t.id]||'')).length;
   return { done, total: sec.topics.length, pct: Math.round(done/sec.topics.length*100) };
@@ -791,7 +735,7 @@ function updateCountdown() {
   document.getElementById('sbDays').textContent = diff > 0 ? diff+'d' : diff===0?'🎯':'✓';
 }
 
-// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+// ─── SIDEBAR FILTERING ───────────────────────────────────────────────────────
 function renderSidebar(filter='') {
   const el = document.getElementById('sbScroll');
   const groups = [
@@ -833,7 +777,7 @@ function renderSidebar(filter='') {
 }
 function filterSidebar(v) { renderSidebar(v); }
 
-// ─── STATS & HEADER ───────────────────────────────────────────────────────────
+// ─── UPDATE RUNNING METRICS ──────────────────────────────────────────────────
 function updateStats() {
   const all = allTopics();
   const done = all.filter(t => ['done','revision'].includes(S.topicStatus[t.id]||'')).length;
@@ -850,7 +794,6 @@ function updateStats() {
   renderSidebar();
 }
 
-// ─── LOG ─────────────────────────────────────────────────────────────────────
 function renderLog() {
   const el = document.getElementById('logList');
   if (!S.log || !S.log.length) { el.innerHTML='<div class="empty-log">No sessions yet</div>'; return; }
@@ -858,9 +801,8 @@ function renderLog() {
 }
 function clearLog() { S.log=[]; saveS(); renderLog(); }
 
-// ─── SECTION SELECTION ────────────────────────────────────────────────────────
 function selectSection(id) {
-  if (isGlobalQBankActive) toggleGlobalView(); // Switch view if clicking sidebar item
+  if (isGlobalQBankActive) toggleGlobalView(); 
   S.currentSection = id;
   document.getElementById('tmSub').textContent = syllabus.find(s=>s.id===id)?.label || '';
   saveS();
@@ -868,7 +810,7 @@ function selectSection(id) {
   renderMain();
 }
 
-// ─── MAIN CONTENT ─────────────────────────────────────────────────────────────
+// ─── MAIN APP RENDERING ──────────────────────────────────────────────────────
 let currentTab = 'topics';
 function renderMain() {
   const sec = syllabus.find(s => s.id === S.currentSection);
@@ -879,7 +821,6 @@ function renderMain() {
 
   const starsCount = sec.topics.filter(t=>S.topicStars[t.id]).length;
   const inProg = sec.topics.filter(t=>(S.topicStatus[t.id]||'')==='in-progress').length;
-  const qBankCount = (S.qbank||[]).filter(q=>q.chapterId===sec.id).length;
 
   document.getElementById('mainContent').innerHTML = `
     <div class="ch-hdr">
@@ -906,7 +847,6 @@ function renderMain() {
     </div>
     <div class="tabs">
       <button class="tab-btn ${currentTab==='topics'?'active':''}" onclick="switchTab('topics',this)">Topics <span class="tc">${total}</span></button>
-      <button class="tab-btn ${currentTab==='qbank'?'active':''}" onclick="switchTab('qbank',this)">Q-Bank <span class="tc">${qBankCount}</span></button>
       <button class="tab-btn ${currentTab==='notes'?'active':''}" onclick="switchTab('notes',this)">My Notes</button>
       <button class="tab-btn ${currentTab==='practice'?'active':''}" onclick="switchTab('practice',this)">Practice Qs <span class="tc">${sec.practiceQs?.length||0}</span></button>
       <button class="tab-btn ${currentTab==='overview'?'active':''}" onclick="switchTab('overview',this)">Overview</button>
@@ -966,39 +906,6 @@ function renderTab(sec) {
       </tbody>
     </table></div>`;
 
-  } else if (currentTab === 'qbank') {
-    const qs = (S.qbank || []).filter(q => q.chapterId === sec.id);
-    tb.innerHTML = `
-      <div class="tw">
-          <div class="qb-form">
-              <input type="text" id="qbText" class="qb-input" placeholder="Enter important question...">
-              <select id="qbCat" class="qb-select">
-                  <option value="A">Category A (High)</option>
-                  <option value="B">Category B (Medium)</option>
-                  <option value="C">Category C (Low)</option>
-              </select>
-              <select id="qbSrc" class="qb-select">
-                  <option value="ICAI Module">ICAI Module</option>
-                  <option value="CA Nitin Goel">CA Nitin Goel</option>
-                  <option value="Aakash Kandoi">Aakash Kandoi</option>
-                  <option value="MTP 2024">MTP 2024</option>
-                  <option value="Other">Other</option>
-              </select>
-              <button class="btn green" onclick="addQBank('${sec.id}')">+ Add</button>
-          </div>
-          <div style="background:var(--gh-canvas); border:1px solid var(--gh-border); border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
-              ${qs.length === 0 ? '<div style="padding:30px;text-align:center;color:var(--gh-text-3);font-size:14px;font-weight:500;">No questions added yet. Be the smart worker!</div>' : qs.map(q => `
-                  <div class="qb-item">
-                      <input type="checkbox" class="qb-chk" ${q.isDone?'checked':''} onchange="toggleQBank('${q.id}')">
-                      <div class="qb-text ${q.isDone?'done':''}">${q.text}</div>
-                      <span class="qb-src">${q.source}</span>
-                      <span class="lbl qb-cat-${q.category}">Cat ${q.category}</span>
-                      <button class="qb-del" onclick="delQBank('${q.id}')" title="Delete">✖</button>
-                  </div>
-              `).join('')}
-          </div>
-      </div>`;
-
   } else if (currentTab === 'notes') {
     const saved = S.notes[sec.id]||'';
     tb.innerHTML = `<div class="notes-wrap">
@@ -1006,7 +913,7 @@ function renderTab(sec) {
         <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--gh-text-2)">Your Notes — ${sec.label}</span>
         <button class="btn def" onclick="saveNote('${sec.id}')" style="font-size:12px;padding:6px 12px;">💾 Save Notes</button>
       </div>
-      <textarea class="notes-ta" id="noteTA" placeholder="Write revision notes, formulas, solved examples, shortcuts…">${saved}</textarea>
+      <textarea class="notes-ta" id="noteTA" placeholder="Write revision notes, formulas, short hacks...">${saved}</textarea>
       <span id="noteSaved" style="font-size:12px;font-weight:600;color:var(--gh-green);display:none;margin-top:8px;">✓ Successfully Saved!</span>
       <div style="margin-top:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gh-text-2);margin-bottom:8px;">Quick Mnemonics</div>
       ${(sec.mnemonics||[]).map(m=>`<div class="mnemonic-box"><strong>💡 ${m.key}</strong>${m.tip}</div>`).join('')}
@@ -1023,32 +930,25 @@ function renderTab(sec) {
           <button class="pq-btn ${done?'done':'todo'}" id="${key}" onclick="togglePQ('${sec.id}',${i},this)">${done?'Done ✓':'To-do'}</button>
         </div>`;
       }).join('')}
-      <div class="pq-tip">💡 <strong>Tip:</strong> Attempt past ICAI exam questions for each topic. Focus on presentation — marks are awarded for proper workings and format.</div>
     </div>`;
 
   } else if (currentTab === 'overview') {
     const today = new Date().toISOString().split('T')[0];
     const dailyMins = S.timeLogs?.[today] || 0;
-    
     let weeklyMins = 0;
     for(let i=0; i<7; i++) {
-        const d = new Date(); 
-        d.setDate(d.getDate() - i);
+        const d = new Date(); d.setDate(d.getDate() - i);
         const dateStr = d.toISOString().split('T')[0];
         weeklyMins += (S.timeLogs?.[dateStr] || 0);
     }
-    const totalMins = S.studyMinutes || 0;
-
     tb.innerHTML = `
     <div style="padding: 24px 30px;">
         <div style="display:flex;gap:15px;margin-bottom:30px;">
             <div class="stat-b blue" style="flex:1"><div class="v">${(dailyMins/60).toFixed(1)}h</div><div class="l">Today</div></div>
             <div class="stat-b purple" style="flex:1"><div class="v">${(weeklyMins/60).toFixed(1)}h</div><div class="l">This Week</div></div>
-            <div class="stat-b green" style="flex:1"><div class="v">${(totalMins/60).toFixed(1)}h</div><div class="l">Total Study</div></div>
+            <div class="stat-b green" style="flex:1"><div class="v">${((S.studyMinutes||0)/60).toFixed(1)}h</div><div class="l">Total Study</div></div>
         </div>
-
         <div style="font-size:12px; font-weight:800; color:var(--gh-text-2); margin-bottom:16px; letter-spacing:1px;">CHAPTER DASHBOARD</div>
-        
         <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
           ${syllabus.map(s => {
             const {done, total, pct} = secProgress(s);
@@ -1062,13 +962,8 @@ function renderTab(sec) {
                         <div class="ov-sub">${s.label} • ${s.marks || '0'} Marks</div>
                     </div>
                 </div>
-                <div class="ov-bar">
-                    <div class="ov-fill" style="width:${pct}%; background:${col};"></div>
-                </div>
-                <div class="ov-meta">
-                    <span>${done}/${total} Topics</span>
-                    <span style="font-weight:700; color:${col}">${pct}%</span>
-                </div>
+                <div class="ov-bar"><div class="ov-fill" style="width:${pct}%; background:${col};"></div></div>
+                <div class="ov-meta"><span>${done}/${total} Topics</span><span style="font-weight:700; color:${col}">${pct}%</span></div>
             </div>`;
           }).join('')}
         </div>
@@ -1076,61 +971,28 @@ function renderTab(sec) {
   }
 }
 
-// ─── Q-BANK ACTIONS ───────────────────────────────────────────────────────────
-function addQBank(chId) {
-    const txt = document.getElementById('qbText').value.trim();
-    const cat = document.getElementById('qbCat').value;
-    const src = document.getElementById('qbSrc').value;
-    if(!txt) return;
-    if(!S.qbank) S.qbank = [];
-    S.qbank.push({ id: 'qb_'+Date.now(), chapterId: chId, text: txt, category: cat, source: src, isDone: false });
-    saveS(); renderMain();
-}
-function toggleQBank(id) {
-    const q = S.qbank.find(x => x.id === id);
-    if(q) { 
-        q.isDone = !q.isDone; 
-        if (q.isDone) checkAddStreak();
-        saveS(); 
-        renderTab(syllabus.find(s=>s.id===S.currentSection)); 
-    }
-}
-function delQBank(id) {
-    S.qbank = S.qbank.filter(x => x.id !== id);
-    saveS(); renderMain();
-}
-
-// ─── TOPIC ACTIONS ────────────────────────────────────────────────────────────
+// ─── ACTION HANDLERS ─────────────────────────────────────────────────────────
 const statusCycle = ['none','in-progress','done','revision'];
 function cycleStatus(tid) {
   const cur = S.topicStatus[tid]||'none';
   const next = statusCycle[(statusCycle.indexOf(cur)+1)%statusCycle.length];
   S.topicStatus[tid]=next; 
   if (next === 'done') checkAddStreak();
-  saveS();
-  renderMain(); renderSidebar(); updateStats();
+  saveS(); renderMain(); renderSidebar(); updateStats();
 }
 function setStatus(tid,val) {
   S.topicStatus[tid]=val; 
   if (val === 'done') checkAddStreak();
-  saveS();
-  renderSidebar(); updateStats();
-  const row = document.querySelector(`[onclick="cycleStatus('${tid}')"]`);
-  if(row){ const icons={none:'',done:'✓','in-progress':'…',revision:'↻'}; row.className=`t-circle ${val}`; row.textContent=icons[val]||''; }
-  const nameEl = row?.closest('tr')?.querySelector('.t-name');
-  if(nameEl){ nameEl.classList.toggle('done-text',val==='done'||val==='revision'); }
+  saveS(); renderSidebar(); updateStats();
 }
 function toggleStar(tid) { S.topicStars[tid]=!S.topicStars[tid]; saveS(); renderMain(); }
 function markAllDone(sid) {
-  const sec=syllabus.find(s=>s.id===sid);
-  sec.topics.forEach(t=>S.topicStatus[t.id]='done');
-  checkAddStreak();
-  saveS(); renderMain(); renderSidebar(); updateStats(); toast(`✓ ${sec.label} marked complete!`);
+  syllabus.find(s=>s.id===sid).topics.forEach(t=>S.topicStatus[t.id]='done');
+  checkAddStreak(); saveS(); renderMain(); renderSidebar(); updateStats();
 }
 function resetSection(sid) {
-  const sec=syllabus.find(s=>s.id===sid);
-  sec.topics.forEach(t=>{ delete S.topicStatus[t.id]; delete S.topicStars[t.id]; });
-  saveS(); renderMain(); renderSidebar(); updateStats(); toast('↺ Section reset');
+  syllabus.find(s=>s.id===sid).topics.forEach(t=>{ delete S.topicStatus[t.id]; delete S.topicStars[t.id]; });
+  saveS(); renderMain(); renderSidebar(); updateStats();
 }
 function togglePQ(sid,idx,btn) {
   if(!S.pqStatus) S.pqStatus={};
@@ -1149,14 +1011,8 @@ function saveNote(sid) {
   if(msg){ msg.style.display='inline'; setTimeout(()=>msg.style.display='none',2500); }
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-loadS();
-renderSidebar();
-renderMain();
-renderLog();
-updateStats();
-updTimer();
-updateCountdown();
+// ─── INITIALIZE APP ──────────────────────────────────────────────────────────
+loadS(); renderSidebar(); renderMain(); renderLog(); updateStats(); updTimer(); updateCountdown();
 </script>
 </body>
 </html>
